@@ -1,7 +1,18 @@
 var requirejs = require('requirejs');
+requirejs.config({
+    baseUrl: __dirname + "/../src",
+    packages: [
+        {
+            name: "squirejs",
+            location: "../node_modules/squirejs",
+            main: "src/Squire"
+        }
+    ]
+});
+
 var chai = requirejs("chai");
 var should = chai.should();
-var Squire = requirejs(__dirname + "/../node_modules/squirejs/src/Squire.js");
+var Squire = requirejs("squirejs");
 
 describe('when calling foo.foo()', function () {
    it('should return "foo"', function() {
@@ -11,7 +22,7 @@ describe('when calling foo.foo()', function () {
 });
 
 describe('when calling bar.bar()', function () {
-    var bar = requirejs(__dirname + "/../src/bar.js");
+    var bar = requirejs("bar");
     it('should return "bar"', function() {
         bar.bar().should.equal("bar");
     });
@@ -19,12 +30,13 @@ describe('when calling bar.bar()', function () {
 
 describe('when calling bar.bar() with async requirejs', function () {
     it('should return "bar"', function(done) {
-        requirejs(__dirname + "/../src/bar.js", function(bar) {
+        requirejs(["bar"], function(bar) {
             bar.bar().should.equal("bar");
             done();
         })
     });
 });
+
 describe('when mocking foo.foo() and calling bar.bar()', function () {
     it('should return "barbar"', function(done) {
         var injector = new Squire();
@@ -34,9 +46,9 @@ describe('when mocking foo.foo() and calling bar.bar()', function () {
             }
         };
         injector
-          .mock('./foo.js', fooMock)
-          .require(__dirname + "/../src/bar.js", function(bar) {
-              bar.bar().should.equal("barbar");
+          .mock('foo', fooMock)
+          .require(["bar"], function(bar) {
+              bar.bar().should.equal("barfoo");
               done();
           });
     });

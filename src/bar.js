@@ -1,4 +1,4 @@
-define(['./foo.js'], function(foo) {
+define(['foo'], function(foo) {
 
     var bar = function() {
         return foo.foo().replace("foo","bar");
