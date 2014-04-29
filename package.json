@@ -1,0 +1,9 @@
+{
+  "name": "node-requirejs-example",
+  "version": "0.0.1",
+  "dependencies": {
+    "squirejs": "^0.2.0",
+    "requirejs": "^2.1.11",
+    "chai": "^1.9.1"
+  }
+}
